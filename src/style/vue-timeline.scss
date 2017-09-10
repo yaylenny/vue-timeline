@@ -1,0 +1,66 @@
+@import "./bulma/sass/utilities/initial-variables";
+@import "./bulma/sass/utilities/derived-variables";
+
+$calendar-border:	.1rem solid $grey-lighter;
+$calendar-border-radius:	$radius;
+$calendar-header-color: $info;
+$calendar-date-hover:	$white-ter;
+$calendar-today-background:	$primary;
+$calendar-today-border-color:	$info;
+$calendar-today-color:	$white;
+@import "./bulma-timeline/timeline";
+@import "./bulma-calendar/calendar";
+.calendar{
+  background: #fff;
+  .calendar-header{
+    color: #fff;
+  }
+  .calendar-month{
+    padding-right: 1em;
+  }
+  .calendar-body .calendar-date{
+    border-right: 1px solid $grey-lighter;
+    border-bottom: 1px solid $grey-lighter;
+    &:nth-child( 7n ){
+      border-right: none;
+    }
+    &.is-inactive{
+      background: $grey-lighter;
+      .date-item{
+        color: $grey;
+        font-style: italic;
+      }
+    }
+  }
+}
+.vue-timeline{
+  .timeline-crown{
+    padding: 1em 0;
+  }
+  .timeline{
+    overflow: auto;
+    // padding: 1em;
+    .timeline-content{
+      flex: 1;
+    }
+    .timeline-marker, .timeline-item:before{
+      top: 2.2em!important;
+    }
+  }
+  .timeline-form{
+    flex: 1;
+    .form-content{
+      background: #fff;
+      padding: 1em;
+    }
+  }
+  .vue-datepicker{
+    position: relative;
+    .datepicker-popup{
+      z-index: 10;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+}
