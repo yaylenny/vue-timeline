@@ -8,6 +8,8 @@
       icon: String,
       css: String,
       tags: Array,
+      dateformat: String,
+      monthformat: String,
       editable:{ type: Boolean, default: false }
     }
   }

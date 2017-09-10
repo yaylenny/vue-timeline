@@ -7,7 +7,7 @@ import moment from "moment";
 let __uid=0;
 
   const _uid=()=>++__uid;
-  const itemMapper=( item, dateformat )=>{
+  const itemMapper=( item, dateformat, monthformat )=>{
     const ret=Object.assign({
       date: null,
       content: "",
@@ -18,6 +18,7 @@ let __uid=0;
     }, item );
     if( !item.date ) return null;
     ret.m=moment( ret.date, dateformat );
+    ret.monthdisplay=ret.m.format( monthformat );
     ret.uid=_uid();
     return ret;
   }
@@ -25,6 +26,7 @@ let __uid=0;
     props: {
       items: Array,
       dateformat:{ type: String, default: "MMMM D, YYYY"},
+      monthformat:{ type: String, default: "MMMM D"},
       editable:{ type: Boolean, default: true }
     },
     data(){
@@ -73,7 +75,7 @@ let __uid=0;
     computed:{
       allItems(){
         return ( this.items || [] )
-          .map( item=>itemMapper( item, this.dateformat ))
+          .map( item=>itemMapper( item, this.dateformat, this.monthformat ))
           .filter(i=>i);
       },
       filteredItems(){
@@ -97,13 +99,17 @@ let __uid=0;
         years.sort(( a, b )=>{
           return this.sortReverse ? ( b - a ) : ( a - b );
         });
-        return years.map( year=>{
+        let groups=years.map( year=>{
           let items=this.filteredItems.filter( item=>item.m.year()===year );
           return {
             year,
             items
           }
-        })
+        });
+        if( this.tempActive ){
+          groups.unshift({ year: false, items:[ this.tempItem ]})
+        }
+        return groups;
 
       }
     },
@@ -123,23 +129,25 @@ let __uid=0;
     </button>
   </p>
   <ul class="timeline">
-    <timeline-form v-if="tempActive"
+    <!-- <timeline-form v-if="tempActive"
     @cancel="cancelEdit(0)"
     @submit="submitItem"
     :date="tempActive.date"
     :dateformat="dateformat"
+    :monthformat="monthformat"
     :title="tempActive.title"
     :icon="tempActive.icon"
     :content="tempActive.content"
     :css="tempActive.css"
     :tags="tempActive.tags"
     :key="tempActive.content">
-  </timeline-form>
+  </timeline-form> -->
     <template v-if="items">
       <template v-for="group in itemGroups">
-        <timeline-header :header="group.year"></timeline-header>
+        <timeline-header :header="group.year" v-if="group.year"></timeline-header>
         <timeline-item
           v-for="item in group.items"
+          :monthformat="monthformat"
           :editable="editable"
           :id="item.id"
           :title="item.title"

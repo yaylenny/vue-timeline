@@ -7,11 +7,10 @@
   export default{
     mixins:[ imixin ],
     props: {
-      editable:{ type: Boolean, default: false }
     },
     data(){
       return {
-        editing: false
+        editing: !this.id
       };
     },
     components:{

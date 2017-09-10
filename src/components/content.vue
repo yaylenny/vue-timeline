@@ -28,6 +28,7 @@ import imixin from "./item-mixin.vue";
         {{content}}
       </p>
     </slot>
+    <slot name="form"></slot>
     <slot name="controls">
       <div class="level">
         <div class="level-left">
@@ -43,6 +44,5 @@ import imixin from "./item-mixin.vue";
         </div>
       </div>
     </slot>
-    <slot name="form"></slot>
   </div>
 </template>

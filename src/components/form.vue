@@ -23,6 +23,7 @@ import datepicker from "./datepicker/datepicker.vue";
       datepicker
     },
     computed:{
+
       isValid(){
         let { content, date }=this.formdata;
         return !!( content && date );
